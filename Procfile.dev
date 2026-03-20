@@ -1,5 +1,0 @@
-# Procfile for local development
-# Run with: make dev (or npm run dev)
-
-backend: cd backend && npm run dev
-storefront: cd storefront && npm run dev

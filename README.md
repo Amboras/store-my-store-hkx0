@@ -1,81 +1,26 @@
-# Ecommerce Starter Template
+# Amboras Storefront Template
 
-Dead simple ecommerce store template using Medusa v2 and Next.js.
+Next.js storefront that connects to the shared Medusa Backend Orchestrator.
 
-## Quick Start
-
-```bash
-# 1. Clone this repo
-git clone <your-repo-url> my-store
-cd my-store
-
-# 2. Install dependencies
-make install
-
-# 3. Start development (auto-setup runs on first start)
-make dev
-```
-
-**That's it!** Your store is running at:
-- **Backend API**: http://localhost:9000
-- **Admin Dashboard**: http://localhost:9000/app
-- **Storefront**: http://localhost:3000
-
-### First Run Auto-Setup ✨
-
-On first `make dev`, the system automatically:
-- ✅ Creates region (India/INR)
-- ✅ Creates sales channel
-- ✅ Generates publishable API key
-- ✅ Links everything together
-- ✅ Configures storefront
-
-**Now just add products via admin and everything works!**
-
-## Customize Your Store
+## Setup
 
 ```bash
-# 1. Plan your customizations
-/create-plan
-
-# 2. AI implements the plan
-/implement-plan
-
-# 3. See your customized store
-make dev
+cd storefront
+cp .env.template .env.local
+npm install
+npm run dev
 ```
 
-The storefront gets customized in place - no generated folders, no complexity.
-
-## Tech Stack
-
-- **Backend**: Medusa v2 (headless commerce)
-- **Frontend**: Next.js 15 + React 19
-- **Database**: PostgreSQL
-- **Payments**: Stripe
-- **Styling**: Tailwind CSS
-
-## Project Structure
+## Environment Variables
 
 ```
-my-store/
-├── backend/       # Medusa commerce engine
-├── storefront/    # Next.js storefront (customize this!)
-├── PLAN.md        # Your store plan (created by /create-plan)
-└── Makefile       # Simple commands
+NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
+NEXT_PUBLIC_STORE_ID=your-store-environment-id
+NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_xxx
 ```
 
-## Commands
+These are injected automatically by the dev orchestrator during store provisioning.
 
-```bash
-make install       # Install dependencies
-make dev           # Start both backend + storefront
-make dev-backend   # Backend only
-make dev-storefront # Storefront only
-make seed          # Seed demo data (categories, products, promotions)
-make stop          # Stop all services
-```
+## How It Works
 
-## Documentation
-
-See [CLAUDE.md](./CLAUDE.md) for full documentation.
+The storefront sends `X-Store-Environment-ID` header on every Medusa API call via the JS SDK's `globalHeaders`. The Medusa Backend Orchestrator routes queries to the correct store database.
