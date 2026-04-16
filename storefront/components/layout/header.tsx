@@ -25,14 +25,12 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Focus close button when mobile menu opens
   useEffect(() => {
     if (isMobileMenuOpen) {
       mobileMenuCloseRef.current?.focus()
     }
   }, [isMobileMenuOpen])
 
-  // Close mobile menu on Escape
   useEffect(() => {
     if (!isMobileMenuOpen) return
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -42,7 +40,6 @@ export default function Header() {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isMobileMenuOpen])
 
-  // Focus trap for mobile menu
   const handleMobileMenuKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key !== 'Tab' || !mobileMenuRef.current) return
     const focusable = mobileMenuRef.current.querySelectorAll<HTMLElement>(
@@ -82,8 +79,8 @@ export default function Header() {
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
-              <span className="font-heading text-2xl font-semibold tracking-tight">
-                Store
+              <span className="font-heading text-xl font-bold tracking-[0.12em] uppercase">
+                VAULTED
               </span>
             </Link>
 
@@ -92,7 +89,10 @@ export default function Header() {
               <Link href="/products" className="text-sm tracking-wide uppercase link-underline py-1" prefetch={true}>
                 Shop All
               </Link>
-              {collections?.slice(0, 4).map((collection: any) => (
+              <Link href="/products?sort=newest" className="text-sm tracking-wide uppercase link-underline py-1" prefetch={true}>
+                New Arrivals
+              </Link>
+              {collections?.slice(0, 3).map((collection: { id: string; handle: string; title: string }) => (
                 <Link
                   key={collection.id}
                   href={`/collections/${collection.handle}`}
@@ -141,7 +141,7 @@ export default function Header() {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-black/50"
             onClick={() => setIsMobileMenuOpen(false)}
           />
           <div
@@ -150,51 +150,60 @@ export default function Header() {
             aria-modal="true"
             aria-label="Navigation menu"
             onKeyDown={handleMobileMenuKeyDown}
-            className="absolute inset-y-0 left-0 w-80 max-w-[85vw] bg-background animate-slide-in-right"
+            className="absolute inset-y-0 left-0 w-80 max-w-[85vw] bg-background flex flex-col"
+            style={{ animation: 'slide-in-right 0.25s ease-out' }}
           >
-            <div className="flex items-center justify-between p-4 border-b">
-              <span className="font-heading text-xl font-semibold">Menu</span>
+            <div className="flex items-center justify-between px-6 py-5 border-b">
+              <span className="font-heading text-base font-bold tracking-[0.12em] uppercase">VAULTED</span>
               <button
                 ref={mobileMenuCloseRef}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 hover:opacity-70"
+                className="p-1.5 hover:opacity-70"
                 aria-label="Close menu"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <nav className="p-4 space-y-1">
+            <nav className="flex-1 overflow-y-auto px-6 py-4 space-y-0">
               <Link
                 href="/products"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block py-3 text-lg tracking-wide border-b border-border/50"
+                className="flex items-center py-4 text-base font-medium tracking-wide border-b border-border/60"
                 prefetch={true}
               >
                 Shop All
               </Link>
-              {collections?.map((collection: any) => (
+              <Link
+                href="/products?sort=newest"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center py-4 text-base font-medium tracking-wide border-b border-border/60"
+                prefetch={true}
+              >
+                New Arrivals
+              </Link>
+              {collections?.map((collection: { id: string; handle: string; title: string }) => (
                 <Link
                   key={collection.id}
                   href={`/collections/${collection.handle}`}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-3 text-lg tracking-wide border-b border-border/50"
+                  className="flex items-center py-4 text-base font-medium tracking-wide border-b border-border/60"
                   prefetch={true}
                 >
                   {collection.title}
                 </Link>
               ))}
-              <div className="pt-4 space-y-1">
+              <div className="pt-6 space-y-0">
                 <Link
                   href={isLoggedIn ? '/account' : '/auth/login'}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-3 text-muted-foreground"
+                  className="flex items-center py-3 text-sm text-muted-foreground"
                 >
-                  {isLoggedIn ? 'Account' : 'Sign In'}
+                  {isLoggedIn ? 'My Account' : 'Sign In'}
                 </Link>
                 <Link
                   href="/search"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-3 text-muted-foreground"
+                  className="flex items-center py-3 text-sm text-muted-foreground"
                 >
                   Search
                 </Link>

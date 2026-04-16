@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { Instagram, Twitter } from 'lucide-react'
 import { clearConsent } from '@/lib/cookie-consent'
 import { usePolicies } from '@/hooks/use-policies'
 
@@ -20,12 +21,10 @@ const footerLinks = {
 export default function Footer() {
   const { policies } = usePolicies()
 
-  // Build company links dynamically based on available policies
   const companyLinks = [
     { label: 'About', href: '/about' },
   ]
 
-  // Add policy links only if they're set in the admin
   if (policies?.privacy_policy) {
     companyLinks.push({ label: 'Privacy Policy', href: '/privacy' })
   }
@@ -40,29 +39,45 @@ export default function Footer() {
   }
 
   return (
-    <footer className="border-t bg-muted/30">
-      <div className="container-custom py-section-sm">
-        {/* Main Footer */}
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t bg-[#0f0f0f] text-white/80">
+      <div className="container-custom py-16">
+        {/* Main Footer Grid */}
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block">
-              <span className="font-heading text-2xl font-semibold">
-                Store
+              <span className="font-heading text-xl font-bold tracking-[0.12em] uppercase text-white">
+                VAULTED
               </span>
             </Link>
-            <p className="mt-4 text-sm text-muted-foreground leading-relaxed max-w-xs">
-              Curated products crafted with care. Quality you can feel, design you can see.
+            <p className="mt-4 text-sm text-white/50 leading-relaxed max-w-xs">
+              Built for the ones who move with purpose. Premium streetwear crafted to last.
             </p>
+            <div className="flex items-center gap-4 mt-6">
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="text-white/40 hover:text-white transition-colors"
+              >
+                <Instagram className="h-5 w-5" strokeWidth={1.5} />
+              </a>
+              <a
+                href="#"
+                aria-label="Twitter / X"
+                className="text-white/40 hover:text-white transition-colors"
+              >
+                <Twitter className="h-5 w-5" strokeWidth={1.5} />
+              </a>
+            </div>
           </div>
 
           {/* Shop Links */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest mb-4">Shop</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-widest mb-5 text-white">Shop</h3>
             <ul className="space-y-3">
               {footerLinks.shop.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <Link href={link.href} className="text-sm text-white/50 hover:text-white transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -72,11 +87,11 @@ export default function Footer() {
 
           {/* Help Links */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest mb-4">Help</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-widest mb-5 text-white">Support</h3>
             <ul className="space-y-3">
               {footerLinks.help.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <Link href={link.href} className="text-sm text-white/50 hover:text-white transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -86,11 +101,11 @@ export default function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest mb-4">Company</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-widest mb-5 text-white">Company</h3>
             <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <Link href={link.href} className="text-sm text-white/50 hover:text-white transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -99,10 +114,10 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Store. All rights reserved.
+        {/* Divider */}
+        <div className="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-white/30">
+            &copy; {new Date().getFullYear()} Vaulted. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <button
@@ -110,11 +125,11 @@ export default function Footer() {
                 clearConsent()
                 window.dispatchEvent(new Event('manage-cookies'))
               }}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              className="text-xs text-white/30 hover:text-white/70 transition-colors"
             >
               Manage Cookies
             </button>
-            <span className="text-xs text-muted-foreground">Powered by Amboras</span>
+            <span className="text-xs text-white/20">Powered by Amboras</span>
           </div>
         </div>
       </div>
